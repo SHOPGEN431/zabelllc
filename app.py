@@ -7,36 +7,27 @@ app = Flask(__name__)
 # Load CSV data
 def load_csv_data():
     try:
-        # Try multiple possible CSV paths for different environments
-        possible_paths = [
-            "LLC Data.csv",  # Current directory (Vercel)
-            "C:\\zabel\\LLC Data.csv",  # Local development
-            "./LLC Data.csv",  # Relative path
-            os.path.join(os.path.dirname(__file__), "LLC Data.csv")  # Script directory
-        ]
-        
-        for csv_path in possible_paths:
-            if os.path.exists(csv_path):
-                df = pd.read_csv(csv_path)
-                return df
-        
-        # If no CSV file found, create sample data
-        sample_data = {
-            'name': ['Sample Business 1', 'Sample Business 2', 'Sample Business 3', 'Sample Business 4', 'Sample Business 5', 'Sample Business 6'],
-            'city': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia'],
-            'us_state': ['New York', 'California', 'Illinois', 'Texas', 'Arizona', 'Pennsylvania'],
-            'phone': ['(555) 123-4567', '(555) 234-5678', '(555) 345-6789', '(555) 456-7890', '(555) 567-8901', '(555) 678-9012'],
-            'rating': [4.5, 4.2, 4.8, 4.1, 4.6, 4.3],
-            'reviews': [150, 89, 234, 67, 189, 123],
-            'site': ['https://example1.com', 'https://example2.com', 'https://example3.com', 'https://example4.com', 'https://example5.com', 'https://example6.com'],
-            'us_address': ['123 Main St', '456 Oak Ave', '789 Pine Rd', '321 Elm St', '654 Maple Dr', '987 Cedar Ln'],
-            'subtypes': ['doctors', 'real-estate', 'ecommerce', 'plumbers', 'restaurants', 'consultants']
-        }
-        return pd.DataFrame(sample_data)
+        csv_path = "LLC Data.csv"
+        if os.path.exists(csv_path):
+            df = pd.read_csv(csv_path)
+            return df
+        else:
+            # Create sample data if CSV doesn't exist
+            sample_data = {
+                'name': ['Sample Business 1', 'Sample Business 2', 'Sample Business 3'],
+                'city': ['New York', 'Los Angeles', 'Chicago'],
+                'us_state': ['New York', 'California', 'Illinois'],
+                'phone': ['(555) 123-4567', '(555) 234-5678', '(555) 345-6789'],
+                'rating': [4.5, 4.2, 4.8],
+                'reviews': [150, 89, 234],
+                'site': ['https://example1.com', 'https://example2.com', 'https://example3.com'],
+                'us_address': ['123 Main St', '456 Oak Ave', '789 Pine Rd'],
+                'subtypes': ['doctors', 'real-estate', 'ecommerce']
+            }
+            return pd.DataFrame(sample_data)
     except Exception as e:
         print(f"Error loading CSV: {e}")
-        # Return empty DataFrame with correct columns
-        return pd.DataFrame(columns=['name', 'city', 'us_state', 'phone', 'rating', 'reviews', 'site', 'us_address', 'subtypes'])
+        return pd.DataFrame()
 
 # Business types configuration
 business_types = {
