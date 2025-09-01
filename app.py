@@ -1,33 +1,42 @@
 from flask import Flask, render_template, request, redirect, url_for
 import pandas as pd
 import os
-from config import config
 
 app = Flask(__name__)
-
-# Load configuration
-config_name = os.environ.get('FLASK_ENV', 'default')
-app.config.from_object(config[config_name])
 
 # Load CSV data
 def load_csv_data():
     try:
-        # Create sample data (simplified approach like ESME)
+        # Try multiple possible CSV paths for different environments
+        possible_paths = [
+            "LLC Data.csv",  # Current directory (Vercel)
+            "C:\\zabel\\LLC Data.csv",  # Local development
+            "./LLC Data.csv",  # Relative path
+            os.path.join(os.path.dirname(__file__), "LLC Data.csv")  # Script directory
+        ]
+        
+        for csv_path in possible_paths:
+            if os.path.exists(csv_path):
+                df = pd.read_csv(csv_path)
+                return df
+        
+        # If no CSV file found, create sample data
         sample_data = {
-            'name': ['Sample Business 1', 'Sample Business 2', 'Sample Business 3'],
-            'city': ['New York', 'Los Angeles', 'Chicago'],
-            'us_state': ['New York', 'California', 'Illinois'],
-            'phone': ['(555) 123-4567', '(555) 234-5678', '(555) 345-6789'],
-            'rating': [4.5, 4.2, 4.8],
-            'reviews': [150, 89, 234],
-            'site': ['https://example1.com', 'https://example2.com', 'https://example3.com'],
-            'us_address': ['123 Main St', '456 Oak Ave', '789 Pine Rd'],
-            'subtypes': ['doctors', 'real-estate', 'ecommerce']
+            'name': ['Sample Business 1', 'Sample Business 2', 'Sample Business 3', 'Sample Business 4', 'Sample Business 5', 'Sample Business 6'],
+            'city': ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia'],
+            'us_state': ['New York', 'California', 'Illinois', 'Texas', 'Arizona', 'Pennsylvania'],
+            'phone': ['(555) 123-4567', '(555) 234-5678', '(555) 345-6789', '(555) 456-7890', '(555) 567-8901', '(555) 678-9012'],
+            'rating': [4.5, 4.2, 4.8, 4.1, 4.6, 4.3],
+            'reviews': [150, 89, 234, 67, 189, 123],
+            'site': ['https://example1.com', 'https://example2.com', 'https://example3.com', 'https://example4.com', 'https://example5.com', 'https://example6.com'],
+            'us_address': ['123 Main St', '456 Oak Ave', '789 Pine Rd', '321 Elm St', '654 Maple Dr', '987 Cedar Ln'],
+            'subtypes': ['doctors', 'real-estate', 'ecommerce', 'plumbers', 'restaurants', 'consultants']
         }
         return pd.DataFrame(sample_data)
     except Exception as e:
         print(f"Error loading CSV: {e}")
-        return pd.DataFrame()
+        # Return empty DataFrame with correct columns
+        return pd.DataFrame(columns=['name', 'city', 'us_state', 'phone', 'rating', 'reviews', 'site', 'us_address', 'subtypes'])
 
 # Business types configuration
 business_types = {
@@ -132,64 +141,79 @@ states = {
     'wyoming': {'name': 'Wyoming', 'abbr': 'WY', 'cost': '100'}
 }
 
-@app.route('/health')
-def health():
-    return {'status': 'healthy', 'message': 'Zabel LLC Directory is running'}
-
 @app.route('/')
 def index():
-    try:
-        df = load_csv_data()
-        businesses = []
-        if not df.empty:
-            businesses = df.head(6).to_dict('records')
-        
-        return render_template('index.html', 
-                             business_types=business_types, 
-                             states=states, 
-                             businesses=businesses)
-    except Exception as e:
-        print(f"Error in index route: {e}")
-        return render_template('index.html', 
-                             business_types=business_types, 
-                             states=states, 
-                             businesses=[])
+    df = load_csv_data()
+    businesses = []
+    if not df.empty:
+        businesses = df.head(6).to_dict('records')
+    
+    return render_template('index.html', 
+                         business_types=business_types, 
+                         states=states, 
+                         businesses=businesses)
 
-@app.route('/services/<business_type>')
-def service_page(business_type):
-    try:
-        df = load_csv_data()
-        businesses = []
-        if not df.empty:
+@app.route('/llc-for-<business_type>')
+def business_type_page(business_type):
+    # Find the category for this business type
+    category_data = None
+    for category, data in business_types.items():
+        if business_type in data['services']:
+            category_data = data
+            break
+    
+    if not category_data:
+        return "Business type not found", 404
+    
+    df = load_csv_data()
+    businesses = []
+    if not df.empty:
+        # Filter businesses by business type if possible
+        try:
+            filtered_df = df[df['subtypes'].str.contains(business_type, case=False, na=False)]
+            businesses = filtered_df.head(6).to_dict('records')
+        except:
             businesses = df.head(6).to_dict('records')
-        
-        return render_template('business_type.html',
-                             business_type=business_type,
-                             states=states,
-                             businesses=businesses)
-    except Exception as e:
-        print(f"Error in service_page route: {e}")
-        return "Internal server error", 500
+    
+    return render_template('business_type.html',
+                         business_type=business_type,
+                         category_data=category_data,
+                         states=states,
+                         businesses=businesses)
 
-@app.route('/states/<state>')
-def state_page(state):
-    try:
-        if state not in states:
-            return "State not found", 404
-        
-        df = load_csv_data()
-        businesses = []
-        if not df.empty:
+@app.route('/llc-for-<business_type>/<state>')
+def business_type_state_page(business_type, state):
+    if state not in states:
+        return "State not found", 404
+    
+    # Find the category for this business type
+    category_data = None
+    for category, data in business_types.items():
+        if business_type in data['services']:
+            category_data = data
+            break
+    
+    if not category_data:
+        return "Business type not found", 404
+    
+    df = load_csv_data()
+    businesses = []
+    if not df.empty:
+        # Filter businesses by state
+        try:
+            state_filter = df['us_state'].str.lower() == states[state]['name'].lower()
+            filtered_df = df[state_filter]
+            businesses = filtered_df.head(20).to_dict('records')
+        except:
             businesses = df.head(20).to_dict('records')
-        
-        return render_template('business_type_state.html',
-                             state=state,
-                             state_data=states[state],
-                             states=states,
-                             businesses=businesses)
-    except Exception as e:
-        print(f"Error in state_page route: {e}")
-        return "Internal server error", 500
+    
+    return render_template('business_type_state.html',
+                         business_type=business_type,
+                         state=state,
+                         state_data=states[state],
+                         category_data=category_data,
+                         states=states,
+                         businesses=businesses)
 
 @app.route('/about')
 def about():
@@ -205,48 +229,38 @@ def privacy():
 
 @app.route('/sitemap.xml')
 def sitemap():
-    try:
-        # Generate sitemap dynamically
-        urls = []
-        
-        # Add static pages
-        static_pages = ['', '/about', '/contact', '/privacy']
-        for page in static_pages:
+    # Generate sitemap dynamically
+    urls = []
+    
+    # Add static pages
+    static_pages = ['', '/about', '/contact', '/privacy']
+    for page in static_pages:
+        urls.append({
+            'loc': f'https://www.zabelllc.org{page}',
+            'changefreq': 'monthly',
+            'priority': '0.6'
+        })
+    
+    # Add business type pages
+    for category, data in business_types.items():
+        for service in data['services']:
             urls.append({
-                'loc': f'https://www.zabelllc.org{page}',
-                'changefreq': 'monthly',
-                'priority': '0.6'
-            })
-        
-        # Add business type pages
-        for category, data in business_types.items():
-            for service in data['services']:
-                urls.append({
-                    'loc': f'https://www.zabelllc.org/services/{service}',
-                    'changefreq': 'weekly',
-                    'priority': '0.8'
-                })
-        
-        # Add state-specific pages
-        for state_key in states.keys():
-            urls.append({
-                'loc': f'https://www.zabelllc.org/states/{state_key}',
+                'loc': f'https://www.zabelllc.org/llc-for-{service}',
                 'changefreq': 'weekly',
-                'priority': '0.9'
+                'priority': '0.8'
             })
-        
-        return render_template('sitemap.xml', urls=urls, business_types=business_types)
-    except Exception as e:
-        print(f"Error in sitemap route: {e}")
-        return "Internal server error", 500
-
-@app.errorhandler(500)
-def internal_error(error):
-    return "Internal server error", 500
-
-@app.errorhandler(404)
-def not_found_error(error):
-    return "Page not found", 404
+    
+    # Add state-specific pages
+    for category, data in business_types.items():
+        for service in data['services']:
+            for state_key in states.keys():
+                urls.append({
+                    'loc': f'https://www.zabelllc.org/llc-for-{service}/{state_key}',
+                    'changefreq': 'weekly',
+                    'priority': '0.9'
+                })
+    
+    return render_template('sitemap.xml', urls=urls, business_types=business_types)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
