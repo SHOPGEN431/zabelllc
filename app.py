@@ -1,8 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for
 import pandas as pd
 import os
+from config import config
 
 app = Flask(__name__)
+
+# Load configuration
+config_name = os.environ.get('FLASK_ENV', 'default')
+app.config.from_object(config[config_name])
 
 # Load CSV data
 def load_csv_data():
@@ -139,6 +144,10 @@ states = {
     'wisconsin': {'name': 'Wisconsin', 'abbr': 'WI', 'cost': '130'},
     'wyoming': {'name': 'Wyoming', 'abbr': 'WY', 'cost': '100'}
 }
+
+@app.route('/health')
+def health():
+    return {'status': 'healthy', 'message': 'Zabel LLC Directory is running'}
 
 @app.route('/')
 def index():
@@ -279,6 +288,14 @@ def sitemap():
     except Exception as e:
         print(f"Error in sitemap route: {e}")
         return "Internal server error", 500
+
+@app.errorhandler(500)
+def internal_error(error):
+    return "Internal server error", 500
+
+@app.errorhandler(404)
+def not_found_error(error):
+    return "Page not found", 404
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
