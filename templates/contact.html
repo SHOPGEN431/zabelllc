@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - Zabel LLC Directory{% endblock %}
+{% block description %}Get in touch with Zabel LLC Directory. We're here to help you find the perfect LLC formation service for your business.{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="{{ url_for('index') }}">Home</a>
+            <span class="separator">/</span>
+            <span class="current">Contact</span>
+        </nav>
+        
+        <div class="page-title">
+            <h1>Contact Us</h1>
+            <p>Get in touch with us for any questions about LLC formation services or our directory.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Content -->
+<section class="contact-content">
+    <div class="container">
+        <div class="contact-grid">
+            <!-- Contact Information -->
+            <div class="contact-info">
+                <h2>Get In Touch</h2>
+                <p>Have questions about LLC formation services or need help finding the right provider for your business? We're here to help!</p>
+                
+                <div class="contact-details">
+                    <h3>Business Hours</h3>
+                    <p>Monday - Friday: 9:00 AM - 6:00 PM EST</p>
+                    <p>Saturday: 10:00 AM - 4:00 PM EST</p>
+                    <p>Sunday: Closed</p>
+                </div>
+                
+                <div class="contact-note">
+                    <p><strong>Note:</strong> We provide information and directory services. For specific legal advice about LLC formation, please consult with a qualified attorney or business formation service.</p>
+                </div>
+            </div>
+            
+            <!-- Contact Form -->
+            <div class="contact-form-section">
+                <h2>Send Us a Message</h2>
+                <p>Fill out the form below and we'll get back to you as soon as possible.</p>
+                
+                <div class="google-form-container">
+                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScWDu_G3xEWyYXBnADc8XgE3E639UkyLn7dRWyKBE7qu3Y9CQ/viewform?embedded=true" 
+                            width="100%" 
+                            height="800" 
+                            frameborder="0" 
+                            marginheight="0" 
+                            marginwidth="0">
+                        Loading…
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Ready to Form Your LLC?</h2>
+            <p>Start your search for the perfect LLC formation service today.</p>
+            <a href="{{ url_for('index') }}" class="cta-btn">Start Your Search</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

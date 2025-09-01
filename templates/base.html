@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Zabel LLC Directory - Find LLC Formation Services{% endblock %}</title>
+    <meta name="description" content="{% block description %}Find the best LLC formation services for your business type and state. Professional services tailored to your specific industry needs.{% endblock %}">
+    <meta name="keywords" content="{% block keywords %}LLC formation, business formation, LLC services, business registration{% endblock %}">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="{% block og_title %}Zabel LLC Directory{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Find LLC formation services for your business type and state{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ request.url }}">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
+    <!-- Favicon - Multiple formats for better compatibility -->
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏢</text></svg>">
+    <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏢</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏢</text></svg>">
+    
+    <!-- Additional Favicon Meta Tags -->
+    <meta name="theme-color" content="#f39c12">
+    <meta name="msapplication-TileColor" content="#f39c12">
+    <meta name="msapplication-config" content="none">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a href="{{ url_for('index') }}" class="logo">
+                        <h1>Zabel LLC Directory</h1>
+                    </a>
+                </div>
+                
+                <div class="navbar-menu">
+                    <ul class="nav-links">
+                        <li><a href="{{ url_for('index') }}">Home</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle">LLC Services</a>
+                            <ul class="dropdown-menu">
+                                {% if business_types %}
+                                    {% for category, cat_data in business_types.items() %}
+                                    <li class="dropdown-item">
+                                        <a href="#" class="dropdown-category">{{ cat_data.name }}</a>
+                                        <ul class="submenu">
+                                            {% for service in cat_data.services %}
+                                            <li><a href="{{ url_for('business_type_page', business_type=service) }}">LLC for {{ service.replace('-', ' ').title() }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    {% endfor %}
+                                {% else %}
+                                    <li><a href="{{ url_for('index') }}">Browse Services</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                        <li><a href="{{ url_for('about') }}">About</a></li>
+                        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="navbar-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Zabel LLC Directory</h3>
+                    <p>Find the best LLC formation services for your business type and state. Professional services tailored to your specific industry needs.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{{ url_for('index') }}">Home</a></li>
+                        <li><a href="{{ url_for('about') }}">About Us</a></li>
+                        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Popular Services</h4>
+                    <ul>
+                        <li><a href="{{ url_for('business_type_page', business_type='doctors') }}">LLC for Doctors</a></li>
+                        <li><a href="{{ url_for('business_type_page', business_type='real-estate') }}">LLC for Real Estate</a></li>
+                        <li><a href="{{ url_for('business_type_page', business_type='ecommerce') }}">LLC for E-commerce</a></li>
+                    </ul>
+                </div>
+                
+
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Zabel LLC Directory. All rights reserved.</p>
+                <ul class="footer-links">
+                    <li><a href="{{ url_for('privacy') }}">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Sticky CTA Button -->
+    <div class="sticky-cta">
+        <div class="sticky-cta-content">
+            <div class="fomo-badge">
+                <span class="fomo-text">🔥 2,847+ LLCs Formed This Month</span>
+            </div>
+            <a href="https://consumer-champion.org/LLCwebsite" target="_blank" class="sticky-cta-btn">
+                <div class="cta-main">
+                    <span class="sticky-cta-text">Start Your LLC with Northwest</span>
+                    <span class="sticky-cta-arrow">→</span>
+                </div>
+                <div class="social-proof">
+                    <span class="rating">★★★★★</span>
+                    <span class="reviews">4.9/5 (2,341 reviews)</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

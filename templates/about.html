@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - Zabel LLC Directory{% endblock %}
+{% block description %}Learn about Zabel LLC Directory and our mission to help businesses find the perfect LLC formation services.{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="{{ url_for('index') }}">Home</a>
+            <span class="separator">/</span>
+            <span class="current">About Us</span>
+        </nav>
+        
+        <div class="page-title">
+            <h1>About Zabel LLC Directory</h1>
+            <p>Your trusted resource for LLC formation services across all 50 states.</p>
+        </div>
+    </div>
+</section>
+
+<!-- About Content -->
+<section class="about-content">
+    <div class="container">
+        <div class="about-text">
+            <h2>Our Mission</h2>
+            <p>At Zabel LLC Directory, we understand that starting a business is one of the most important decisions you'll make. Our mission is to simplify the LLC formation process by connecting entrepreneurs with the best service providers for their specific business type and state.</p>
+            
+            <h2>What We Do</h2>
+            <p>We provide a comprehensive directory of LLC formation services, organized by business type and state. Whether you're a doctor looking to form an LLC in California, a real estate investor in Texas, or an e-commerce entrepreneur in Florida, we help you find the right service provider for your needs.</p>
+            
+            <h2>Why Choose Us</h2>
+            <ul>
+                <li><strong>Comprehensive Coverage:</strong> We cover all 50 states and all major business types</li>
+                <li><strong>Verified Providers:</strong> All service providers in our directory are verified and rated</li>
+                <li><strong>Detailed Information:</strong> Get pricing, features, and reviews for each service</li>
+                <li><strong>Local Resources:</strong> Find local businesses that can help with your LLC formation</li>
+                <li><strong>Up-to-Date Information:</strong> We regularly update our listings and pricing information</li>
+            </ul>
+            
+            <h2>Our Process</h2>
+            <p>We carefully research and evaluate each service provider in our directory. We consider factors such as pricing, customer reviews, features, and reliability to ensure you get the best recommendations for your specific needs.</p>
+            
+            <h2>Get Started Today</h2>
+            <p>Ready to form your LLC? Start by selecting your business type and state on our homepage. We'll show you the best service providers for your specific situation, along with detailed information to help you make an informed decision.</p>
+            
+            <div class="cta-buttons">
+                <a href="{{ url_for('index') }}" class="cta-btn">Start Your Search</a>
+                <a href="{{ url_for('contact') }}" class="cta-btn secondary">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Ready to Form Your LLC?</h2>
+            <p>Find the perfect service provider for your business type and state today.</p>
+            <a href="{{ url_for('index') }}" class="cta-btn">Start Your Search</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

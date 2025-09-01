@@ -1,0 +1,399 @@
+{% extends "base.html" %}
+
+{% block title %}Zabel LLC Directory - Find LLC Formation Services by Business Type and State{% endblock %}
+{% block description %}Find the best LLC formation services for your specific business type and state. Professional services tailored to healthcare, construction, real estate, e-commerce, and more.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Find LLC Formation Services for Your Business</h1>
+            <p class="hero-subtitle">Professional LLC formation services tailored to your specific industry and state. Choose from 100+ business types across all 50 states.</p>
+            
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">100+</span>
+                    <span class="stat-label">Business Types</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">51</span>
+                    <span class="stat-label">States Covered</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">4.5+</span>
+                    <span class="stat-label">Average Rating</span>
+                </div>
+            </div>
+            
+            <div class="hero-search">
+                <form class="search-form">
+                    <select class="search-select" id="businessType">
+                        <option value="">Select Business Type</option>
+                        {% for category, cat_data in business_types.items() %}
+                        <optgroup label="{{ cat_data.name }}">
+                            {% for service in cat_data.services %}
+                            <option value="{{ service }}">LLC for {{ service.replace('-', ' ').title() }}</option>
+                            {% endfor %}
+                        </optgroup>
+                        {% endfor %}
+                    </select>
+                    <select class="search-select" id="state">
+                        <option value="">Select State</option>
+                        {% for state_key, state_data in states.items() %}
+                        <option value="{{ state_key }}">{{ state_data.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="search-btn">Find Services</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Business Categories Section -->
+<section class="business-categories">
+    <div class="container">
+        <h2 class="section-title">LLC Formation Services by Business Type</h2>
+        
+        <div class="categories-grid">
+            {% for category_key, category_data in business_types.items() %}
+            <div class="category-card">
+                <h3 class="category-title">{{ category_data.name }}</h3>
+                <ul class="category-services">
+                    {% for service in category_data.services[:6] %}
+                    <li><a href="{{ url_for('business_type_page', business_type=service) }}">LLC for {{ service.replace('-', ' ').title() }}</a></li>
+                    {% endfor %}
+                    {% if category_data.services|length > 6 %}
+                    <li class="more-services">
+                        <a href="#" class="more-link">+{{ category_data.services|length - 6 }} more services</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Top State Pages Section -->
+<section class="top-state-pages">
+    <div class="container">
+        <h2 class="section-title">Popular State-Specific LLC Formation Services</h2>
+        <p class="section-subtitle">Find LLC formation services for your business type in your state</p>
+        
+        <div class="state-pages-grid">
+            <!-- Healthcare -->
+            <div class="state-category">
+                <h3>Healthcare LLC Formation</h3>
+                <div class="state-links">
+                    <a href="{{ url_for('business_type_state_page', business_type='doctors', state='california') }}">Doctors LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='doctors', state='texas') }}">Doctors LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='doctors', state='florida') }}">Doctors LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='doctors', state='new-york') }}">Doctors LLC in New York</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='doctors', state='illinois') }}">Doctors LLC in Illinois</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='dentists', state='california') }}">Dentists LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='dentists', state='texas') }}">Dentists LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='dentists', state='florida') }}">Dentists LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='chiropractors', state='california') }}">Chiropractors LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='chiropractors', state='texas') }}">Chiropractors LLC in Texas</a>
+                </div>
+            </div>
+
+            <!-- Construction -->
+            <div class="state-category">
+                <h3>Construction & Trades LLC Formation</h3>
+                <div class="state-links">
+                    <a href="{{ url_for('business_type_state_page', business_type='contractors', state='california') }}">Contractors LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='contractors', state='texas') }}">Contractors LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='contractors', state='florida') }}">Contractors LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='plumbers', state='california') }}">Plumbers LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='plumbers', state='texas') }}">Plumbers LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='electricians', state='california') }}">Electricians LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='electricians', state='florida') }}">Electricians LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='roofers', state='texas') }}">Roofers LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='hvac-technicians', state='california') }}">HVAC Technicians LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='hvac-technicians', state='florida') }}">HVAC Technicians LLC in Florida</a>
+                </div>
+            </div>
+
+            <!-- Real Estate -->
+            <div class="state-category">
+                <h3>Real Estate LLC Formation</h3>
+                <div class="state-links">
+                    <a href="{{ url_for('business_type_state_page', business_type='rental-properties', state='california') }}">Rental Properties LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='rental-properties', state='texas') }}">Rental Properties LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='rental-properties', state='florida') }}">Rental Properties LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='airbnb', state='california') }}">Airbnb LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='airbnb', state='florida') }}">Airbnb LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='realtors', state='california') }}">Realtors LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='realtors', state='texas') }}">Realtors LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='property-management', state='california') }}">Property Management LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='property-management', state='florida') }}">Property Management LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='house-flippers', state='texas') }}">House Flippers LLC in Texas</a>
+                </div>
+            </div>
+
+            <!-- E-commerce -->
+            <div class="state-category">
+                <h3>E-commerce LLC Formation</h3>
+                <div class="state-links">
+                    <a href="{{ url_for('business_type_state_page', business_type='ecommerce', state='california') }}">E-commerce LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='ecommerce', state='texas') }}">E-commerce LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='ecommerce', state='florida') }}">E-commerce LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='etsy', state='california') }}">Etsy LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='etsy', state='texas') }}">Etsy LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='amazon-fba', state='california') }}">Amazon FBA LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='amazon-fba', state='florida') }}">Amazon FBA LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='shopify', state='california') }}">Shopify LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='shopify', state='texas') }}">Shopify LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='dropshipping', state='florida') }}">Dropshipping LLC in Florida</a>
+                </div>
+            </div>
+
+            <!-- Transportation -->
+            <div class="state-category">
+                <h3>Transportation LLC Formation</h3>
+                <div class="state-links">
+                    <a href="{{ url_for('business_type_state_page', business_type='trucking', state='texas') }}">Trucking LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='trucking', state='california') }}">Trucking LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='trucking', state='florida') }}">Trucking LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='uber', state='california') }}">Uber LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='uber', state='texas') }}">Uber LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='lyft', state='california') }}">Lyft LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='lyft', state='florida') }}">Lyft LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='limo', state='california') }}">Limo LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='limo', state='new-york') }}">Limo LLC in New York</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='rideshare-drivers', state='texas') }}">Rideshare Drivers LLC in Texas</a>
+                </div>
+            </div>
+
+            <!-- Food & Hospitality -->
+            <div class="state-category">
+                <h3>Food & Hospitality LLC Formation</h3>
+                <div class="state-links">
+                    <a href="{{ url_for('business_type_state_page', business_type='restaurants', state='california') }}">Restaurants LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='restaurants', state='texas') }}">Restaurants LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='restaurants', state='florida') }}">Restaurants LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='food-trucks', state='california') }}">Food Trucks LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='food-trucks', state='texas') }}">Food Trucks LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='bakery', state='california') }}">Bakery LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='bakery', state='florida') }}">Bakery LLC in Florida</a>
+                </div>
+            </div>
+
+            <!-- Professional Services -->
+            <div class="state-category">
+                <h3>Professional Services LLC Formation</h3>
+                <div class="state-links">
+                    <a href="{{ url_for('business_type_state_page', business_type='freelancers', state='california') }}">Freelancers LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='freelancers', state='texas') }}">Freelancers LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='consultants', state='california') }}">Consultants LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='consultants', state='florida') }}">Consultants LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='photographers', state='california') }}">Photographers LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='photographers', state='texas') }}">Photographers LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='event-planners', state='california') }}">Event Planners LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='event-planners', state='florida') }}">Event Planners LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='marketing-agencies', state='california') }}">Marketing Agencies LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='marketing-agencies', state='texas') }}">Marketing Agencies LLC in Texas</a>
+                </div>
+            </div>
+
+            <!-- Additional Popular Combinations -->
+            <div class="state-category">
+                <h3>More Popular State Combinations</h3>
+                <div class="state-links">
+                    <a href="{{ url_for('business_type_state_page', business_type='cleaning-businesses', state='california') }}">Cleaning Businesses LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='cleaning-businesses', state='florida') }}">Cleaning Businesses LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='landscapers', state='california') }}">Landscapers LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='landscapers', state='texas') }}">Landscapers LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='software-developers', state='california') }}">Software Developers LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='software-developers', state='texas') }}">Software Developers LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='it-consultants', state='california') }}">IT Consultants LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='it-consultants', state='florida') }}">IT Consultants LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='saas-businesses', state='california') }}">SaaS Businesses LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='saas-businesses', state='texas') }}">SaaS Businesses LLC in Texas</a>
+                </div>
+            </div>
+
+            <!-- Beauty & Personal Care -->
+            <div class="state-category">
+                <h3>Beauty & Personal Care LLC Formation</h3>
+                <div class="state-links">
+                    <a href="{{ url_for('business_type_state_page', business_type='hair-salon', state='california') }}">Hair Salon LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='hair-salon', state='texas') }}">Hair Salon LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='hair-salon', state='florida') }}">Hair Salon LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='salons', state='california') }}">Salons LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='salons', state='new-york') }}">Salons LLC in New York</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='barbers', state='california') }}">Barbers LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='barbers', state='texas') }}">Barbers LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='barbers', state='florida') }}">Barbers LLC in Florida</a>
+                </div>
+            </div>
+
+            <!-- Digital & Creative -->
+            <div class="state-category">
+                <h3>Digital & Creative LLC Formation</h3>
+                <div class="state-links">
+                    <a href="{{ url_for('business_type_state_page', business_type='social-media-influencers', state='california') }}">Social Media Influencers LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='social-media-influencers', state='texas') }}">Social Media Influencers LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='online-coaches', state='california') }}">Online Coaches LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='online-coaches', state='florida') }}">Online Coaches LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='content-creators', state='california') }}">Content Creators LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='content-creators', state='texas') }}">Content Creators LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='videographers', state='california') }}">Videographers LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='videographers', state='new-york') }}">Videographers LLC in New York</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='podcasters', state='california') }}">Podcasters LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='podcasters', state='texas') }}">Podcasters LLC in Texas</a>
+                </div>
+            </div>
+
+            <!-- Finance & Investment -->
+            <div class="state-category">
+                <h3>Finance & Investment LLC Formation</h3>
+                <div class="state-links">
+                    <a href="{{ url_for('business_type_state_page', business_type='stock-trading', state='california') }}">Stock Trading LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='stock-trading', state='new-york') }}">Stock Trading LLC in New York</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='day-trading', state='california') }}">Day Trading LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='day-trading', state='texas') }}">Day Trading LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='crypto-trading', state='california') }}">Crypto Trading LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='crypto-trading', state='florida') }}">Crypto Trading LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='financial-advisors', state='california') }}">Financial Advisors LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='financial-advisors', state='new-york') }}">Financial Advisors LLC in New York</a>
+                </div>
+            </div>
+
+            <!-- Specialized Businesses -->
+            <div class="state-category">
+                <h3>Specialized Business LLC Formation</h3>
+                <div class="state-links">
+                    <a href="{{ url_for('business_type_state_page', business_type='vending-machines', state='california') }}">Vending Machines LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='vending-machines', state='texas') }}">Vending Machines LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='cannabis', state='california') }}">Cannabis LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='cannabis', state='colorado') }}">Cannabis LLC in Colorado</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='woodworking-businesses', state='california') }}">Woodworking Businesses LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='woodworking-businesses', state='texas') }}">Woodworking Businesses LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='jewelry-makers', state='california') }}">Jewelry Makers LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='jewelry-makers', state='florida') }}">Jewelry Makers LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='farmers', state='california') }}">Farmers LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='farmers', state='texas') }}">Farmers LLC in Texas</a>
+                </div>
+            </div>
+
+            <!-- Additional States -->
+            <div class="state-category">
+                <h3>More States - Popular Business Types</h3>
+                <div class="state-links">
+                    <a href="{{ url_for('business_type_state_page', business_type='doctors', state='new-jersey') }}">Doctors LLC in New Jersey</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='doctors', state='pennsylvania') }}">Doctors LLC in Pennsylvania</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='contractors', state='new-york') }}">Contractors LLC in New York</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='contractors', state='illinois') }}">Contractors LLC in Illinois</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='plumbers', state='ohio') }}">Plumbers LLC in Ohio</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='plumbers', state='michigan') }}">Plumbers LLC in Michigan</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='electricians', state='pennsylvania') }}">Electricians LLC in Pennsylvania</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='electricians', state='new-jersey') }}">Electricians LLC in New Jersey</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='restaurants', state='new-york') }}">Restaurants LLC in New York</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='restaurants', state='illinois') }}">Restaurants LLC in Illinois</a>
+                </div>
+            </div>
+
+            <!-- E-commerce Extended -->
+            <div class="state-category">
+                <h3>E-commerce Extended - More States</h3>
+                <div class="state-links">
+                    <a href="{{ url_for('business_type_state_page', business_type='ecommerce', state='new-york') }}">E-commerce LLC in New York</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='ecommerce', state='illinois') }}">E-commerce LLC in Illinois</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='etsy', state='florida') }}">Etsy LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='etsy', state='new-york') }}">Etsy LLC in New York</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='amazon-fba', state='texas') }}">Amazon FBA LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='amazon-fba', state='new-york') }}">Amazon FBA LLC in New York</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='shopify', state='florida') }}">Shopify LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='shopify', state='illinois') }}">Shopify LLC in Illinois</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='dropshipping', state='california') }}">Dropshipping LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='dropshipping', state='texas') }}">Dropshipping LLC in Texas</a>
+                </div>
+            </div>
+
+            <!-- Professional Services Extended -->
+            <div class="state-category">
+                <h3>Professional Services Extended</h3>
+                <div class="state-links">
+                    <a href="{{ url_for('business_type_state_page', business_type='freelancers', state='florida') }}">Freelancers LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='freelancers', state='new-york') }}">Freelancers LLC in New York</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='consultants', state='texas') }}">Consultants LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='consultants', state='illinois') }}">Consultants LLC in Illinois</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='photographers', state='florida') }}">Photographers LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='photographers', state='new-york') }}">Photographers LLC in New York</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='event-planners', state='texas') }}">Event Planners LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='event-planners', state='illinois') }}">Event Planners LLC in Illinois</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='marketing-agencies', state='florida') }}">Marketing Agencies LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='marketing-agencies', state='new-york') }}">Marketing Agencies LLC in New York</a>
+                </div>
+            </div>
+
+            <!-- Construction Extended -->
+            <div class="state-category">
+                <h3>Construction & Trades Extended</h3>
+                <div class="state-links">
+                    <a href="{{ url_for('business_type_state_page', business_type='roofers', state='california') }}">Roofers LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='roofers', state='florida') }}">Roofers LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='painters', state='california') }}">Painters LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='painters', state='texas') }}">Painters LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='hvac-technicians', state='texas') }}">HVAC Technicians LLC in Texas</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='hvac-technicians', state='new-york') }}">HVAC Technicians LLC in New York</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='landscapers', state='florida') }}">Landscapers LLC in Florida</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='landscapers', state='new-york') }}">Landscapers LLC in New York</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='handyman', state='california') }}">Handyman LLC in California</a>
+                    <a href="{{ url_for('business_type_state_page', business_type='handyman', state='texas') }}">Handyman LLC in Texas</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Businesses Section -->
+{% if featured_businesses %}
+<section class="featured-businesses">
+    <div class="container">
+        <h2 class="section-title">Top Rated Service Providers</h2>
+        <div class="businesses-grid">
+            {% for business in featured_businesses %}
+            <div class="business-card">
+                <div class="business-header">
+                    <h3 class="business-name">{{ business.name }}</h3>
+                    {% if business.rating %}
+                    <div class="business-rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-text">{{ business.rating }} ({{ business.reviews }} reviews)</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="business-details">
+                    <p class="business-location">{{ business.city }}, {{ business.us_state }}</p>
+                    {% if business.phone %}
+                    <p class="business-phone">{{ business.phone }}</p>
+                    {% endif %}
+                </div>
+                {% if business.site %}
+                <a href="{{ business.site }}" class="business-website" target="_blank">Visit Website</a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Ready to Form Your LLC?</h2>
+            <p>Find the perfect LLC formation service for your business type and state. Get started today!</p>
+            <a href="#" class="cta-btn">Start LLC Formation</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

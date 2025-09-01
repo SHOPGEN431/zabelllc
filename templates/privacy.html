@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Privacy Policy - Zabel LLC Directory{% endblock %}
+{% block description %}Read our privacy policy to understand how Zabel LLC Directory collects, uses, and protects your information.{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="{{ url_for('index') }}">Home</a>
+            <span class="separator">/</span>
+            <span class="current">Privacy Policy</span>
+        </nav>
+        
+        <div class="page-title">
+            <h1>Privacy Policy</h1>
+            <p>How we collect, use, and protect your information.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Privacy Content -->
+<section class="privacy-content">
+    <div class="container">
+        <div class="privacy-text">
+            <p><strong>Last Updated: January 2025</strong></p>
+            
+            <h2>Information We Collect</h2>
+            <h3>Personal Information</h3>
+            <p>We collect minimal personal information and only through our contact form, which is powered by Google Forms. We do not collect personal information through newsletter signups, reviews, ratings, or other forms.</p>
+            
+            <p>The information we may collect through our contact form includes:</p>
+            <ul>
+                <li>Name and contact information (email, phone number)</li>
+                <li>Message content</li>
+                <li>Any additional information you choose to provide</li>
+            </ul>
+            
+            <h3>Non-Personal Information</h3>
+            <p>We may collect non-personal information such as:</p>
+            <ul>
+                <li>Browser type and version</li>
+                <li>Operating system</li>
+                <li>Pages visited on our website</li>
+                <li>Time spent on pages</li>
+                <li>Referring website</li>
+            </ul>
+            
+            <h2>How We Use Your Information</h2>
+            <p>We use the information we collect to:</p>
+            <ul>
+                <li>Respond to your contact form inquiries and requests</li>
+                <li>Provide customer support</li>
+                <li>Improve our website and services</li>
+                <li>Analyze website usage and trends (non-personal data only)</li>
+                <li>Ensure the security of our website</li>
+            </ul>
+            
+            <h2>Information Sharing</h2>
+            <p>We do not sell, trade, or otherwise transfer your personal information to third parties except in the following circumstances:</p>
+            <ul>
+                <li>With your explicit consent</li>
+                <li>To comply with legal obligations</li>
+                <li>To protect our rights and safety</li>
+                <li>In connection with a business transfer or merger</li>
+            </ul>
+            
+            <h2>Data Security</h2>
+            <p>We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the internet is 100% secure.</p>
+            
+            <h2>Cookies and Tracking</h2>
+            <p>We may use cookies and similar tracking technologies to enhance your browsing experience and analyze website usage. You can control cookie settings through your browser preferences.</p>
+            
+            <h2>Third-Party Services</h2>
+            <p>Our contact form is powered by Google Forms, which has its own privacy policy. We recommend reviewing Google's privacy policy for information about how they handle your data.</p>
+            
+            <h2>Your Rights</h2>
+            <p>You have the right to:</p>
+            <ul>
+                <li>Access your personal information</li>
+                <li>Correct inaccurate information</li>
+                <li>Request deletion of your information</li>
+                <li>Lodge a complaint with relevant authorities</li>
+            </ul>
+            
+            <h2>Children's Privacy</h2>
+            <p>Our website is not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13.</p>
+            
+            <h2>Changes to This Policy</h2>
+            <p>We may update this privacy policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last Updated" date.</p>
+            
+            <h2>Contact Us</h2>
+            <p>If you have any questions about this Privacy Policy, please contact us through our <a href="{{ url_for('contact') }}">Contact Page</a>.</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Ready to Form Your LLC?</h2>
+            <p>Find the perfect service provider for your business type and state today.</p>
+            <a href="{{ url_for('index') }}" class="cta-btn">Start Your Search</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
