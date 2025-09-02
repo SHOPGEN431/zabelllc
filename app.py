@@ -220,8 +220,8 @@ def privacy():
 
 @app.route('/sitemap.xml')
 def sitemap():
-    # Generate sitemap dynamically
-    urls = []
+    return send_from_directory('static', 'zigs.xml')
+
     
     # Add static pages
     static_pages = ['', '/about', '/contact', '/privacy']
