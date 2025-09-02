@@ -218,40 +218,10 @@ def contact():
 def privacy():
     return render_template('privacy.html', business_types=business_types)
 
-@app.route('/sitemap.xml')
+@app.route('/zigs.xml')
 def sitemap():
     return send_from_directory('static', 'zigs.xml')
 
-    
-    # Add static pages
-    static_pages = ['', '/about', '/contact', '/privacy']
-    for page in static_pages:
-        urls.append({
-            'loc': f'https://www.zabelllc.org{page}',
-            'changefreq': 'monthly',
-            'priority': '0.6'
-        })
-    
-    # Add business type pages
-    for category, data in business_types.items():
-        for service in data['services']:
-            urls.append({
-                'loc': f'https://www.zabelllc.org/llc-for-{service}',
-                'changefreq': 'weekly',
-                'priority': '0.8'
-            })
-    
-    # Add state-specific pages
-    for category, data in business_types.items():
-        for service in data['services']:
-            for state_key in states.keys():
-                urls.append({
-                    'loc': f'https://www.zabelllc.org/llc-for-{service}/{state_key}',
-                    'changefreq': 'weekly',
-                    'priority': '0.9'
-                })
-    
-    return render_template('sitemap.xml', urls=urls, business_types=business_types)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
